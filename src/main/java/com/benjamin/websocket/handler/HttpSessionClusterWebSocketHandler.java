@@ -1,12 +1,10 @@
 package com.benjamin.websocket.handler;
 
 import com.benjamin.websocket.entity.Identity;
-import com.benjamin.websocket.handler.ClusterWebSocketHandlerAdapter;
 import com.benjamin.websocket.sessionprovider.WebSocketSessionPropertyHolder;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -50,11 +48,12 @@ public class HttpSessionClusterWebSocketHandler extends ClusterWebSocketHandlerA
     //首先获取自定义握手所存储的数据,包括httpSession 及 httpSession中存储对象使用的key(由用户定义,通过Map传递到handler中)
     Map<String, Object> map = session.getAttributes();
     //获取httpSession;
-    HttpSession httpSession = (HttpSession) map.get(WEBSOCKET_HTTPSESSION_KEY);
-    //获取httpSession中存储对象所使用的key
-    String key = (String) map.get(HTTP_SESSION_KEY_VALUE);
-    //从httpSession中拿到实际的存储对象。
-    Identity identity = (Identity) httpSession.getAttribute(key);
+//    HttpSession httpSession = (HttpSession) map.get(WEBSOCKET_HTTPSESSION_KEY);
+//    //获取httpSession中存储对象所使用的key
+//    String key = (String) map.get(HTTP_SESSION_KEY_VALUE);
+//    //从httpSession中拿到实际的存储对象。
+//    Identity identity = (Identity) httpSession.getAttribute(key);
+    Identity identity = (Identity) map.get(HANDSHAKE_IDENTITY_KEY);
     return identity;
   }
 }

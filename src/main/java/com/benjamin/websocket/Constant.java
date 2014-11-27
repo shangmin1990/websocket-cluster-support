@@ -20,4 +20,7 @@ public interface Constant {
   String WEBSOCKET_HTTPSESSION_KEY = "websocket_httpsession_key";
   //httpSession中存储Identity对象使用的键名
   String HTTP_SESSION_KEY_VALUE = "httpsession_key_value";
+
+  String HANDSHAKE_IDENTITY_KEY = "handshake_identity_key";
+
 }
