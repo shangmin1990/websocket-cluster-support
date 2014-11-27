@@ -23,4 +23,6 @@ public interface Constant {
 
   String HANDSHAKE_IDENTITY_KEY = "handshake_identity_key";
 
+  String HTTP_HEADER_COOKIE = "cookie";
+
 }
