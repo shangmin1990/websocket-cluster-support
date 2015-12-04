@@ -9,7 +9,7 @@ import com.benjamin.websocket.sessionprovider.impl.SimpWebSocketSessionProvider;
  * be sure your data source(such as a map) is the same one;
  * or the WebSocketProvider is singleton;
  */
-public class DefaultLocalSessionProviderFactory implements com.benjamin.websocket.sessionprovider.factory.LocalWebSocketSessionProviderFactory {
+public final class DefaultLocalSessionProviderFactory implements com.benjamin.websocket.sessionprovider.factory.LocalWebSocketSessionProviderFactory {
 
   private static WebSocketSessionProvider localWebSocketSessionProvider = new SimpWebSocketSessionProvider();
 

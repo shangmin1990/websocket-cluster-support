@@ -50,19 +50,6 @@ public class SendIdentityClusterWebSocketHandler extends ClusterWebSocketHandler
       webSocketSessionPropertyHolderProvider.saveSession(identity, webSocketSessionPropertyHolder);
       //将websocketSession对象保存在本机供查找
       localWebSocketSessionProvider.saveSession(identity, session);
-      if(logger.isDebugEnabled()){
-        int size  = localWebSocketSessionProvider.getAllSession().size();
-        logger.debug("存储之后的本机websocketSession数量为~~~~~~~~~~~~"+size);
-        Set<Identity> identitySet = localWebSocketSessionProvider.getAllSession().keySet();
-        Identity abc = null;
-        for(Identity identity123: identitySet){
-          if(abc != null && identity123 != null){
-            logger.debug("equals###########"+identity123.equals(abc));
-          }
-          logger.debug("HashCode###########"+identity123.hashCode());
-          abc = identity123;
-        }
-      }
     }
   }
 

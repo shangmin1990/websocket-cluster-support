@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.io.UnsupportedEncodingException;
@@ -21,10 +20,11 @@ import java.util.Map;
  * 因为我们是分布式部署,所以全局的Session需要共享，
  * 并不能通过request.getSession这种方式来获取Session,我们默认采用
  * cookie+外部nosql存储的方式来保存登录状态
+ * 当我们需要自动的从session中建立联系关系的时候使用此handshakeInterceptor
  */
-public class HandshakeHandlerInterceptor implements HandshakeInterceptor, Constant{
+public class SessionHandshakeHandlerInterceptor implements HandshakeInterceptor, Constant{
 
-  private static Logger logger = Logger.getLogger(HandshakeHandlerInterceptor.class);
+  private static Logger logger = Logger.getLogger(SessionHandshakeHandlerInterceptor.class);
 
   private IdentityFactory identityFactory;
 

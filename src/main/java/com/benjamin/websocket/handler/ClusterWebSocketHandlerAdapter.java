@@ -113,12 +113,14 @@ public class ClusterWebSocketHandlerAdapter implements WebSocketHandler, Constan
 
   @Override
   public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-
+    System.out.println("error:");
+    exception.printStackTrace();
   }
 
   @Override
   public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-
+    System.out.println("Session :"+ session.getId() +" has closed");
+    System.out.println("Reason:" + closeStatus.getCode() +" --- "+ closeStatus.getReason());
   }
 
   @Override

@@ -8,7 +8,7 @@ import com.benjamin.websocket.sessionprovider.impl.MemcacheSocketSessionProvider
  * if you implements this interface your self,
  * be sure your data source is the same one;
  */
-public class MemCacheGlobalSessionProviderFactory implements com.benjamin.websocket.sessionprovider.factory.GlobalWebSocketSessionProviderFactory {
+public final class MemCacheGlobalSessionProviderFactory implements com.benjamin.websocket.sessionprovider.factory.GlobalWebSocketSessionProviderFactory {
 
   private static WebSocketSessionProvider globalWebSocketSessionProvider = new MemcacheSocketSessionProvider();
 
