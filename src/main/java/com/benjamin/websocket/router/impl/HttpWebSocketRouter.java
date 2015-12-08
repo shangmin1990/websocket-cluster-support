@@ -7,6 +7,7 @@ import com.benjamin.websocket.sessionprovider.WebSocketSessionPropertyHolder;
 import com.benjamin.websocket.util.HttpClientUtil;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
+import org.springframework.util.Assert;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -30,6 +31,7 @@ public class HttpWebSocketRouter extends AbstractWebSocketRouter {
    */
   @Override
   public JSONObject dispatcher(Identity identify, WebSocketMessage webSocketMessage) {
+    Assert.notNull(servletContext);
     JSONObject jsonObject = new JSONObject();
     WebSocketSession webSocketSession = (WebSocketSession) simpWebSocketSessionProvider.getSession(identify);
     //从本机获取websocket链接
@@ -43,12 +45,16 @@ public class HttpWebSocketRouter extends AbstractWebSocketRouter {
         } catch (IOException e) {
           e.printStackTrace();
           jsonObject.put("status",false);
-          jsonObject.put("reason", e.getClass().getName()+"\r\n"+e.getMessage());
+          jsonObject.put("reason", e.getClass().getName() + "\r\n" + e.getMessage());
+          simpWebSocketSessionProvider.deleteSession(identify);
+          memcacheSocketSessionProvider.deleteSession(identify);
           return jsonObject;
         }
       }else {
         jsonObject.put("status", false);
         jsonObject.put("reason", "websocket connection has closed");
+        simpWebSocketSessionProvider.deleteSession(identify);
+        memcacheSocketSessionProvider.deleteSession(identify);
       }
     }else{
       //转发到存在socket链接的服务器;
@@ -56,6 +62,8 @@ public class HttpWebSocketRouter extends AbstractWebSocketRouter {
       //如果不存在propertyHolder则没有链接
       if(propertyHolder != null){
         String hostAndPort = propertyHolder.getHost()+":"+propertyHolder.getPort();
+        logger.info(hostAndPort);
+
         JSONObject result =
             HttpClientUtil.dispatcherRequestInternal(
                 hostAndPort, servletContext.getContextPath(), INTERNAL_SERVLET_PATH, "GET",
