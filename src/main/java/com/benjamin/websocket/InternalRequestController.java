@@ -28,7 +28,7 @@ public class InternalRequestController {
 
   @RequestMapping("/internalRequest")
   @ResponseBody
-  public JSONObject handleInternalRequest(@RequestParam("identify") String identify, @RequestParam("message") String message){
+  public JSONObject handleInternalRequest(@RequestParam("mac") String identify, @RequestParam("message") String message){
     JSONObject result = new JSONObject();
     WebSocketSession webSocketSession = simpWebSocketSessionProvider.getSession(new StringIdentity(identify));
 
