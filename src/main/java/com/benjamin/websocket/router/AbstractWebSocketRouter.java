@@ -10,6 +10,7 @@ import com.benjamin.websocket.sessionprovider.factory.impl.DefaultWebSocketSessi
 import com.benjamin.websocket.sessionprovider.impl.MemcacheSocketSessionProvider;
 import com.benjamin.websocket.sessionprovider.impl.SimpWebSocketSessionProvider;
 import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
@@ -22,7 +23,9 @@ import java.util.List;
 /**
  * Created by benjamin on 11/19/14.
  */
-public abstract class AbstractWebSocketRouter implements WebSocketRouter, ServletContextAware, Constant {
+public abstract class AbstractWebSocketRouter implements WebSocketRouter, Constant {
+
+  private static final Logger logger = Logger.getLogger(AbstractWebSocketRouter.class.getName());
 
   protected List<String> cluster;
 
@@ -54,9 +57,13 @@ public abstract class AbstractWebSocketRouter implements WebSocketRouter, Servle
     return cluster;
   }
 
-  @Override
   public void setServletContext(ServletContext servletContext) {
+    logger.info("servletContext init success:-----------"+ servletContext.toString());
     this.servletContext = servletContext;
+  }
+
+  public ServletContext getServletContext(){
+    return this.servletContext;
   }
 
   @Override

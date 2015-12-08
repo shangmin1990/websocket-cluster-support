@@ -4,7 +4,9 @@ import com.benjamin.websocket.router.impl.HttpWebSocketRouter;
 import com.benjamin.websocket.router.impl.TcpWebSocketRouter;
 import com.benjamin.websocket.router.impl.UdpWebSocketRouter;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.web.context.ServletContextAware;
 
+import javax.servlet.ServletContext;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -13,11 +15,12 @@ import java.util.List;
 /**
  * Created by benjamin on 11/19/14.
  */
-public class WebSocketRouterFactoryBean implements FactoryBean<WebSocketRouter> {
+public class WebSocketRouterFactoryBean implements FactoryBean<WebSocketRouter>, ServletContextAware {
 
   private static final String HTTP ="http";
   private static final String TCP = "tcp";
   private static final String UDP = "udp";
+  private ServletContext servletContext;
 
   private List<Collection> cluster;
   private String protocol = "HTTP";
@@ -53,6 +56,14 @@ public class WebSocketRouterFactoryBean implements FactoryBean<WebSocketRouter> 
   @Override
   public boolean isSingleton() {
     return true;
+  }
+
+  @Override
+  public void setServletContext(ServletContext servletContext) {
+    this.servletContext = servletContext;
+    ((AbstractWebSocketRouter) WebSocketRouterFactory.httpWebSocketRouter).setServletContext(servletContext);
+    ((AbstractWebSocketRouter) WebSocketRouterFactory.tcpWebSocketRouter).setServletContext(servletContext);
+    ((AbstractWebSocketRouter) WebSocketRouterFactory.udpWebSocketRouter).setServletContext(servletContext);
   }
 
   private static final class WebSocketRouterFactory {
